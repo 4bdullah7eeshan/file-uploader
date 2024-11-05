@@ -11,6 +11,7 @@ const { PrismaClient } = require('@prisma/client')
 
 // Import routers here
 const indexRouter = require("./routes/indexRouter");
+const signInRouter = require("./routes/signInRouter");
 
 const app = express();
 const assetsPath = path.join(__dirname, "public");
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 
 // Use routers here
 app.use("/", indexRouter);
+app.use("/sign-in", signInRouter);
 
 
 passport.use(
