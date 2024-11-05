@@ -16,6 +16,9 @@ const signInRouter = require("./routes/signInRouter");
 const app = express();
 const assetsPath = path.join(__dirname, "public");
 
+const prisma = new PrismaClient()
+
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
