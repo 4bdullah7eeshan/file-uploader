@@ -86,10 +86,10 @@ app.use(
        maxAge: 7 * 24 * 60 * 60 * 1000 // ms
       },
       secret: 'a santa at nasa',
-      resave: true,
+      resave: false,
       saveUninitialized: true,
       store: new PrismaSessionStore(
-        new PrismaClient(),
+        prisma,
         {
           checkPeriod: 2 * 60 * 1000,  //ms
           dbRecordIdIsSessionId: true,
