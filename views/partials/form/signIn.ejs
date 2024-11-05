@@ -1,0 +1,26 @@
+<form method="POST" action="/sign-in">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="johndoe" required>
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+
+    <% if (error) { %>
+        <div>
+            <p><%= error %></p>
+        </div>
+    <% } %>
+
+    <div>
+        <button type="submit">Sign in</button>
+    </div>
+
+    <div>
+        <p>Don't have an account? <a href="/sign-up">Sign up</a></p>
+    </div>
+</form>
