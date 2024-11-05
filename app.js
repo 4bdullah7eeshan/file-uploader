@@ -8,3 +8,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const { PrismaClient } = require('@prisma/client')
+
+// Import routers here
+const indexRouter = require("./routes/indexRouter");
