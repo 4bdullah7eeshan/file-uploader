@@ -10,7 +10,6 @@ const flash = require('connect-flash');
 const { PrismaClient } = require('@prisma/client');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const fs = require("fs");
-const path = require("path");
 
 const uploadDir = path.join(__dirname, "uploads");
 
