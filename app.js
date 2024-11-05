@@ -28,7 +28,6 @@ app.set("view engine", "ejs");
 
 
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
-app.use(passport.session());
 
 app.use(methodOverride("_method"));
 app.use(bodyParser.json());
@@ -37,7 +36,6 @@ app.use(express.static(assetsPath));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.error = req.flash('error');
@@ -98,6 +96,10 @@ app.use(
       )
     })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 
 const PORT = process.env.PORT || 3000;
