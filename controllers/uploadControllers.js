@@ -1,7 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const path = require("path");
 const multer = require("multer");
-const prisma = require("../prisma/client");
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
