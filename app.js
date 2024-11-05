@@ -22,7 +22,7 @@ const indexRouter = require("./routes/indexRouter");
 const signInRouter = require("./routes/signInRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const uploadRouter = require("./routes/uploadRouter");
-const { ensureAuthenticated } = require("./middleware/auth");
+const { ensureAuthenticated } = require("./middlewares/auth");
 
 
 const app = express();
