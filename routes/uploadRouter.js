@@ -4,6 +4,6 @@ const uploadController = require("../controllers/uploadControllers");
 const uploadRouter = Router();
 
 uploadRouter.get("/", uploadController.getUploadPage);
-uploadRouter.post("/");
+uploadRouter.post("/", uploadController.createFile);
 
 module.exports = uploadRouter;
