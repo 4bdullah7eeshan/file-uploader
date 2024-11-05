@@ -22,6 +22,8 @@ const indexRouter = require("./routes/indexRouter");
 const signInRouter = require("./routes/signInRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const uploadRouter = require("./routes/uploadRouter");
+const { ensureAuthenticated } = require("./middleware/auth");
+
 
 const app = express();
 const assetsPath = path.join(__dirname, "public");
@@ -55,10 +57,10 @@ app.use((req, res, next) => {
 });
 
 // Use routers here
-app.use("/", indexRouter);
+app.use("/", ensureAuthenticated, indexRouter);
 app.use("/sign-in", signInRouter);
 app.use("/sign-up", signUpRouter);
-app.use("/upload", uploadRouter);
+app.use("/upload", ensureAuthenticated, uploadRouter);
 
 
 passport.use(
