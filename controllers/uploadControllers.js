@@ -34,6 +34,7 @@ const createFile = asyncHandler(async (req, res) => {
             fileName: req.file.filename,
             userId: req.user.id,
             createdAt: new Date(),
+            path: `uploads/${req.file.filename}`,
         }
     });
 
