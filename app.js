@@ -22,6 +22,7 @@ if (!fs.existsSync(uploadDir)) {
 const indexRouter = require("./routes/indexRouter");
 const signInRouter = require("./routes/signInRouter");
 const signUpRouter = require("./routes/signUpRouter");
+const uploadRouter = require("./routes/uploadRouter");
 
 const app = express();
 const assetsPath = path.join(__dirname, "public");
@@ -58,6 +59,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/sign-in", signInRouter);
 app.use("/sign-up", signUpRouter);
+app.use("/upload", uploadRouter);
 
 
 passport.use(
