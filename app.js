@@ -9,13 +9,13 @@ const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const { PrismaClient } = require('@prisma/client');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
-const fs = require("fs");
+//const fs = require("fs");
 
-const uploadDir = path.join(__dirname, "uploads");
+//const uploadDir = path.join(__dirname, "uploads");
 
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
+// if (!fs.existsSync(uploadDir)) {
+//     fs.mkdirSync(uploadDir, { recursive: true });
+// }
 
 // Import routers here
 const indexRouter = require("./routes/indexRouter");
@@ -33,6 +33,15 @@ const prisma = new PrismaClient()
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+app.use(methodOverride("_method"));
+
+app.use(bodyParser.json());
+
+app.use(express.static(assetsPath));
+
+app.use(express.urlencoded({ extended: true }));
+
 
 app.use(
     session({
@@ -55,15 +64,7 @@ app.use(passport.initialize());
 app.use(passport.session());
   
 
-app.use(methodOverride("_method"));
-app.use(bodyParser.json());
 
-app.use(express.static(assetsPath));
-
-app.use(express.urlencoded({ extended: true }));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 app.use(flash());
