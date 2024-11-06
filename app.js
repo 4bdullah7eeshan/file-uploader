@@ -22,6 +22,7 @@ const indexRouter = require("./routes/indexRouter");
 const signInRouter = require("./routes/signInRouter");
 const signUpRouter = require("./routes/signUpRouter");
 const uploadRouter = require("./routes/uploadRouter");
+const logOutRouter = require("./routes/logOutRouter");
 const { ensureAuthenticated } = require("./middlewares/auth");
 
 
@@ -80,6 +81,7 @@ app.use("/", ensureAuthenticated, indexRouter);
 app.use("/sign-in", signInRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/upload", ensureAuthenticated, uploadRouter);
+app.use("/signout", logOutRouter);
 
 
 passport.use(
