@@ -8,7 +8,11 @@ const getHomePage = asyncHandler(async (req, res) => {
         where: { userId: req.user.id },
     });
 
-    res.render("pages/index", { title: "File Uploader", user: req.user, files });
+    const folders = await prisma.folder.findMany({
+        where: { userId: req.user.id },
+    });
+
+    res.render("pages/index", { title: "File Uploader", user: req.user, files, folders });
 });
 
 module.exports = {
