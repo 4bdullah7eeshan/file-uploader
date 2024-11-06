@@ -40,6 +40,24 @@
                 alert("Error creating folder: " + error.message);
             }
         });
+        async function deleteFolder(folderId) {
+            if (!confirm("Are you sure you want to delete this folder?")) return;
+
+            try {
+                const response = await fetch(`/folders/${folderId}`, { method: 'DELETE' });
+
+                if (response.ok) {
+                    alert("Folder deleted successfully!");
+                    location.reload();
+                } else {
+                    const errorData = await response.json();
+                    alert("Error deleting folder: " + errorData.error);
+                }
+            } catch (error) {
+                alert("Error deleting folder: " + error.message);
+            }
+        }
+
     </script>
     
 </body>
