@@ -29,7 +29,8 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  files     File[]
+  files     File[]    @relation("UserFiles")
+  folders   Folder[]  @relation("UserFolders")
 }
 
 model File {
@@ -38,5 +39,16 @@ model File {
   path      String
   createdAt DateTime @default(now())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("UserFiles", fields: [userId], references: [id])
+  folder    Folder?   @relation("FolderFiles", fields: [folderId], references: [id])
+  folderId  Int?
+}
+
+model Folder {
+  id        Int       @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User      @relation("UserFolders", fields: [userId], references: [id])
+  files     File[]    @relation("FolderFiles")
+  createdAt DateTime  @default(now())
 }
