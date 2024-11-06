@@ -1,0 +1,50 @@
+<div id="editFolderModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2>Edit Folder</h2>
+        <form id="editFolderForm">
+            <input type="hidden" id="editFolderId">
+            <label for="editFolderName">Folder Name:</label>
+            <input type="text" id="editFolderName" required>
+            <button type="submit">Update Folder</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function editFolder(id, name) {
+        document.getElementById('editFolderModal').style.display = 'flex';
+        document.getElementById('editFolderId').value = id;
+        document.getElementById('editFolderName').value = name;
+    }
+
+    function closeEditModal() {
+        document.getElementById('editFolderModal').style.display = 'none';
+    }
+
+    document.getElementById('editFolderForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const folderId = document.getElementById('editFolderId').value;
+        const folderName = document.getElementById('editFolderName').value;
+
+        try {
+            const response = await fetch(`/folders/${folderId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: folderName })
+            });
+
+            if (response.ok) {
+                closeEditModal();
+                alert("Folder updated successfully!");
+                location.reload();
+            } else {
+                const errorData = await response.json();
+                alert("Error updating folder: " + errorData.error);
+            }
+        } catch (error) {
+            alert("Error updating folder: " + error.message);
+        }
+    });
+</script>
