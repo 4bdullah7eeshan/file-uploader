@@ -39,12 +39,12 @@ const getFolderById = async (req, res) => {
     try {
         const folder = await prisma.folder.findFirst({
             where: { id: Number(id), userId },
-            include: { files: true },
+            include: { files: true, subfolders: true },
         });
         if (!folder) {
             return res.status(404).json({ error: "Folder not found" });
         }
-        res.status(200).json(folder);
+        res.render('pages/folder', { folder });;
     } catch (error) {
         res.status(500).json({ error: "Error retrieving folder" });
     }
