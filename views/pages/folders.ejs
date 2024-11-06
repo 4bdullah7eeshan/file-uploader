@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= folder.name %> - Folder View</title>
+</head>
+<body>
+    <h1>Folder: <%= folder.name %></h1>
+    <a href="/folders" class="back-link">Back to Folders</a>
+
+    <h2>Subfolders</h2>
+    <ul>
+        <% if (folder.subfolders.length === 0) { %>
+            <li>No subfolders</li>
+        <% } else { %>
+            <% folder.subfolders.forEach(subfolder => { %>
+                <li>
+                    <a href="/folders/<%= subfolder.id %>"><%= subfolder.name %></a>
+                    <button onclick="editFolder('<%= subfolder.id %>', '<%= subfolder.name %>')">Edit</button>
+                    <button onclick="deleteFolder('<%= subfolder.id %>')">Delete</button>
+                </li>
+            <% }) %>
+        <% } %>
+    </ul>
+
+    <h2>Files</h2>
+    <ul>
+        <% if (folder.files.length === 0) { %>
+            <li>No files in this folder</li>
+        <% } else { %>
+            <% folder.files.forEach(file => { %>
+                <li>
+                    <%= file.name %>
+                    <button onclick="deleteFile('<%= file.id %>')">Delete</button>
+                </li>
+            <% }) %>
+        <% } %>
+    </ul>
+
+    <!-- Add buttons and forms for creating files/subfolders -->
+    <button onclick="openCreateSubfolderModal()">Create New Subfolder</button>
+    <button onclick="openUploadFileModal()">Upload File</button>
+
+    <script src="/path/to/your/scripts.js"></script>
+</body>
+</html>
