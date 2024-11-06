@@ -1,26 +1,4 @@
 <main class="home">
-    <h1>Hello</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>File Name</th>
-                <th>Upload Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% if (files.length === 0) { %>
-                <tr>
-                    <td colspan="2">No files uploaded.</td>
-                </tr>
-            <% } else { %>
-                <% files.forEach(file => { %>
-                    <tr>
-                        <td><%= file.fileName %></td>
-                        <td><%= file.createdAt.toLocaleString() %></td>
-                    </tr>
-                <% }) %>
-            <% } %>
-        </tbody>
-    </table>
-    <a href="/upload">Upload New File</a>
+    <%- include('./aside/home') %>
+    <%- include('./section/home') %>
 </main>
