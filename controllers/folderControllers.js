@@ -41,15 +41,13 @@ const getFolderById = async (req, res) => {
             where: { id: Number(id), userId },
             include: { files: true, subfolders: true },
         });
-        const files = await prisma.file.findMany({
-            where: { userId, folderId: Number(id) }, // Fetch files specific to this folder
-        });
         if (!folder) {
             return res.status(404).json({ error: "Folder not found" });
         }
-        res.render('pages/folders', { folder, files });;
+
+        res.json({ folder, files: folder.files, subfolders: folder.subfolders });
     } catch (error) {
-        res.status(500).json({ error: "Error retrieving folder" });
+        res.status(500).json({ error: "Error retrieving folder contents" });
     }
 };
 

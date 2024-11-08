@@ -10,12 +10,10 @@
             </tr>
         </thead>
         <tbody>
-            <% 
-                folders.sort((a, b) => a.name.localeCompare(b.name)).forEach(folder => { 
-            %>
+            <% folders.sort((a, b) => a.name.localeCompare(b.name)).forEach(folder => { %>
                 <tr>
                     <td>
-                        <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
+                        <a href="#" class="folder-link" data-id="<%= folder.id %>"><%= folder.name %></a>
                     </td>
                     <td><%= folder.createdAt.toLocaleString() %></td>
                     <td>Folder</td>
@@ -25,10 +23,7 @@
                     </td>
                 </tr>
             <% }) %>
-
-            <% 
-                files.sort((a, b) => a.fileName.localeCompare(b.fileName)).forEach(file => { 
-            %>
+            <% files.sort((a, b) => a.fileName.localeCompare(b.fileName)).forEach(file => { %>
                 <tr>
                     <td><%= file.fileName %></td>
                     <td><%= file.createdAt.toLocaleString() %></td>
@@ -39,12 +34,7 @@
                     </td>
                 </tr>
             <% }) %>
-
-            <% if (folders.length === 0 && files.length === 0) { %>
-                <tr>
-                    <td colspan="4">No folders or files available.</td>
-                </tr>
-            <% } %>
         </tbody>
+        
     </table>
 </section>

@@ -58,6 +58,81 @@
             }
         }
 
+        document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".folder-link").forEach(link => {
+        link.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const folderId = e.target.getAttribute("data-id");
+            await loadFolderContents(folderId);
+        });
+    });
+});
+
+async function loadFolderContents(folderId) {
+    try {
+        const response = await fetch(`/folders/${folderId}`);
+        const data = await response.json();
+
+        console.log("Fetched Data:", data);
+
+        if (response.ok) {
+            renderFolderContents(data.subfolders, data.files);
+        } else {
+            alert(data.error || "Error loading folder contents.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to load folder contents.");
+    }
+}
+
+function renderFolderContents(subfolders, files) {
+    const section = document.querySelector("section .file-table tbody");
+    section.innerHTML = "";
+
+    subfolders.forEach(folder => {
+        section.innerHTML += `
+            <tr>
+                <td><a href="#" class="folder-link" data-id="${folder.id}">${folder.name}</a></td>
+                <td>${new Date(folder.createdAt).toLocaleString()}</td>
+                <td>Folder</td>
+                <td>
+                    <button onclick="editFolder('${folder.id}', '${folder.name}')">Edit</button>
+                    <button onclick="deleteFolder('${folder.id}')">Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    files.forEach(file => {
+        section.innerHTML += `
+            <tr>
+                <td>${file.fileName}</td>
+                <td>${new Date(file.createdAt).toLocaleString()}</td>
+                <td>File</td>
+                <td>
+                    <button onclick="editFile('${file.id}', '${file.fileName}')">Edit</button>
+                    <button onclick="deleteFile('${file.id}')">Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    attachFolderLinkHandlers();  // Reattach click handlers to new folder links
+}
+
+function attachFolderLinkHandlers() {
+    document.querySelectorAll(".folder-link").forEach(link => {
+        link.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const folderId = e.target.getAttribute("data-id");
+            await loadFolderContents(folderId);
+        });
+    });
+}
+
+
     </script>
     
 </body>
