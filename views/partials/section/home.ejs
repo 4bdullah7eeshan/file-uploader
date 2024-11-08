@@ -1,41 +1,50 @@
 <section>
-    <h1>Hello</h1>
+    <h2>Your Storage</h2>
     <table class="file-table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Date</th>
+                <th>Type</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <% if (files.length === 0) { %>
+            <% 
+                folders.sort((a, b) => a.name.localeCompare(b.name)).forEach(folder => { 
+            %>
                 <tr>
-                    <td colspan="2">No files uploaded.</td>
+                    <td>
+                        <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
+                    </td>
+                    <td><%= folder.createdAt.toLocaleString() %></td>
+                    <td>Folder</td>
+                    <td>
+                        <button onclick="editFolder('<%= folder.id %>', '<%= folder.name %>')">Edit</button>
+                        <button onclick="deleteFolder('<%= folder.id %>')">Delete</button>
+                    </td>
                 </tr>
-            <% } else { %>
-                <% files.forEach(file => { %>
-                    <tr>
-                        <td><%= file.fileName %></td>
-                        <td><%= file.createdAt.toLocaleString() %></td>
-                    </tr>
-                <% }) %>
+            <% }) %>
+
+            <% 
+                files.sort((a, b) => a.fileName.localeCompare(b.fileName)).forEach(file => { 
+            %>
+                <tr>
+                    <td><%= file.fileName %></td>
+                    <td><%= file.createdAt.toLocaleString() %></td>
+                    <td>File</td>
+                    <td>
+                        <button onclick="editFile('<%= file.id %>', '<%= file.fileName %>')">Edit</button>
+                        <button onclick="deleteFile('<%= file.id %>')">Delete</button>
+                    </td>
+                </tr>
+            <% }) %>
+
+            <% if (folders.length === 0 && files.length === 0) { %>
+                <tr>
+                    <td colspan="4">No folders or files available.</td>
+                </tr>
             <% } %>
         </tbody>
     </table>
-</section>
-<section>
-    <h2>Your Folders</h2>
-    <ul>
-        <% if (folders.length === 0) { %>
-            <li>No folders created.</li>
-        <% } else { %>
-            <% folders.forEach(folder => { %>
-                <li>
-                    <a href="/folders/<%= folder.id %>"><%= folder.name %></a>
-                    <button onclick="editFolder('<%= folder.id %>', '<%= folder.name %>')">Edit</button>
-                    <button onclick="deleteFolder('<%= folder.id %>')">Delete</button>
-                </li>
-            <% }) %>
-        <% } %>
-    </ul>
 </section>
