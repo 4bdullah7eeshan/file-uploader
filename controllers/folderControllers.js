@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const cloudinary = require("../config/cloudinaryConfig");
 
 const createFolder = async (req, res) => {
     const { name, parentId } = req.body;
@@ -177,6 +178,17 @@ const deleteFolder = async (req, res) => {
     const userId = req.user.id;
 
     try {
+        const filesToDelete = await prisma.file.findMany({
+            where: { folderId: Number(id), userId },
+        });
+        await Promise.all(
+            filesToDelete.map(async (file) => {
+                if (file.cloudinaryPublicId) {
+                    await cloudinary.uploader.destroy(file.cloudinaryPublicId);
+                }
+            })
+        );
+        
         await prisma.file.deleteMany({
             where: { folderId: Number(id), userId },
         });
