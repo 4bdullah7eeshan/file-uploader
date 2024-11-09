@@ -13,7 +13,7 @@
             <% folders.sort((a, b) => a.name.localeCompare(b.name)).forEach(folder => { %>
                 <tr>
                     <td>
-                        <a href="#" class="folder-link" data-id="<%= folder.id %>"><%= folder.name %></a>
+                        <a href="/folders/<%= folder.id %>" class="folder-link" data-id="<%= folder.id %>"><%= folder.name %></a>
                     </td>
                     <td><%= folder.createdAt.toLocaleString() %></td>
                     <td>Folder</td>

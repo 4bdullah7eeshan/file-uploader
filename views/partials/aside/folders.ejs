@@ -1,0 +1,61 @@
+<aside class="sidebar">
+    <a href="/upload?folderId=<%= folder.id %>" class="new-file-link">Upload New File</a>
+    <a href="#" class="new-folder-link" onclick="openModal('<%= folder.id %>')">Create New Folder</a>
+
+</aside>
+
+<div id="folderModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Create New Folder</h2>
+        <form id="createFolderForm">
+            <label for="folderName">Folder Name:</label>
+            <input type="text" id="folderName" name="name" required>
+            <input type="hidden" id="parentId" name="parentId">
+
+            <button type="submit">Create Folder</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(parentFolderId) {
+        document.getElementById('parentId').value = parentFolderId;
+
+        document.getElementById('folderModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('folderModal').style.display = 'none';
+    }
+
+    document.getElementById('createFolderForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const folderName = document.getElementById('folderName').value;
+        const parentId = document.getElementById('parentId').value;
+
+
+        try {
+            const response = await fetch('/folders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: folderName, parentId: parseInt(parentId) })
+            });
+
+            if (response.ok) {
+                closeModal();
+                document.getElementById('folderName').value = '';
+                alert("Folder created successfully!");
+                location.reload();
+            } else {
+                const errorData = await response.json();
+                alert("Error creating folder: " + errorData.error);
+            }
+        } catch (error) {
+            alert("Error creating folder: " + error.message);
+        }
+    });
+</script>

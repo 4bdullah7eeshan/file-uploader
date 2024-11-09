@@ -3,7 +3,7 @@
         <span class="close" onclick="closeModal()">&times;</span>
          <!--work on the on click fn later  -->
         <h2>Create New Folder</h2>
-        <form id="createFolderForm">
+        <form action="/folders" method="POST" id="createFolderForm">
             <label for="folderName">Folder Name:</label>
             <input type="text" id="folderName" name="name" required>
             <button type="submit">Create Folder</button>

@@ -20,13 +20,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const getUploadPage = asyncHandler(async (req, res) => {
-    res.render("pages/upload", { title: "Upload", user: req.user });
+    const folderId = req.query.folderId ? parseInt(req.query.folderId) : null;
+    res.render("pages/upload", { title: "Upload", user: req.user, folderId });
 });
 
 const createFile = asyncHandler(async (req, res) => {
+    console.log("Folder ID:", req.body.folderId);
+
+    const folderId = req.body.folderId ? parseInt(req.body.folderId) : null;
+
     if (!req.file) {
         req.flash("error", "No file uploaded.");
-        return res.redirect("/upload");
+        return res.redirect(`/upload${folderId ? `?folderId=${folderId}` : ''}`);
+
     }
 
     await prisma.file.create({
@@ -35,11 +41,14 @@ const createFile = asyncHandler(async (req, res) => {
             userId: req.user.id,
             createdAt: new Date(),
             path: `uploads/${req.file.filename}`,
+            folderId: folderId,
         }
     });
 
+    console.log(folderId);
+
     req.flash("success", "File uploaded successfully.");
-    res.redirect("/");
+    res.redirect(folderId ? `/folders/${folderId}` : "/");
 });
 
 module.exports = {

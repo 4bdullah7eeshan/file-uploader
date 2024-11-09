@@ -12,6 +12,9 @@ folderRouter.get("/", folderController.getFolders);
 // Get a specific folder by ID
 folderRouter.get("/:id", folderController.getFolderById);
 
+//folderRouter.get("/:path*", folderController.getFolderByPath);
+
+
 // Update a folder by ID
 folderRouter.put("/:id", folderController.updateFolder);
 

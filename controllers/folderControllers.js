@@ -2,18 +2,23 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const createFolder = async (req, res) => {
-    const { name } = req.body;
+    const { name, parentId } = req.body;
     const userId = req.user.id;
+    console.log(name);
     
     try {
         const folder = await prisma.folder.create({
             data: {
-                name,
-                userId,
+                name: name,
+                userId: userId,
+                parentId: parentId ? Number(parentId) : null,
+                createdAt: new Date(),
             },
         });
         res.status(201).json(folder);
     } catch (error) {
+        console.error("Error creating folder:", error);
+
         res.status(500).json({ error: "Error creating folder" });
     }
 };
@@ -23,33 +28,130 @@ const getFolders = async (req, res) => {
 
     try {
         const folders = await prisma.folder.findMany({
-            where: { userId },
-            include: { files: true },
+            where: { userId, parentId: null },
+            include: { subfolders: true, files: true },
         });
-        res.status(200).json(folders);
+        res.render('pages/index', {
+            folders: folders,
+            title: 'Your Storage',
+        });
     } catch (error) {
         res.status(500).json({ error: "Error retrieving folders" });
     }
 };
 
 const getFolderById = async (req, res) => {
-    const { id } = req.params;
+    // const { id } = req.params;
+    // const userId = req.user.id;
+
+    // try {
+    //     const folder = await prisma.folder.findFirst({
+    //         where: { id: Number(id), userId },
+    //         include: { files: true, subfolders: true },
+    //     });
+    //     if (!folder) {
+    //         return res.status(404).json({ error: "Folder not found" });
+    //     }
+    //     res.render("index", { folders: folder.subfolders, files: folder.files });
+    // } catch (error) {
+
+    // }
+
+    // //     res.json({ folder, files: folder.files, subfolders: folder.subfolders });
+    // // } catch (error) {
+    // //     res.status(500).json({ error: "Error retrieving folder contents" });
+    // // }
+    // res.render("index", { folders: folder.subfolders, files: folder.files });
+
+    // const folderId = parseInt(req.params.id);
+    // const folder = await prisma.folder.findUnique({
+    //     where: { id: folderId },
+    //     include: {
+    //         subfolders: true,
+    //         files: true,
+    //     }
+    // });
+
+    // if (!folder) {
+    //     return res.status(404).send("Folder not found");
+    // }
+
+    // res.render("pages/index", { folders: folder.subfolders, files: folder.files });
     const userId = req.user.id;
+    const folderId = parseInt(req.params.id);
 
     try {
-        const folder = await prisma.folder.findFirst({
-            where: { id: Number(id), userId },
-            include: { files: true, subfolders: true },
+        const folder = await prisma.folder.findUnique({
+            where: { id: folderId,
+                
+                userId
+             },
+            include: {
+                subfolders: true,
+                files: true,
+            }
         });
+
         if (!folder) {
-            return res.status(404).json({ error: "Folder not found" });
+            return res.status(404).render('error', { message: "Folder not found" });
         }
 
-        res.json({ folder, files: folder.files, subfolders: folder.subfolders });
+        res.render('pages/folders', {
+            folder,         
+            subfolders: folder.subfolders,
+            files: folder.files,
+            title: folder.name || 'Folder View',
+            folderId: folder.id,
+        });
     } catch (error) {
-        res.status(500).json({ error: "Error retrieving folder contents" });
+        console.error("Error fetching folder:", error);
+        res.status(500).render('error', { message: "Server error while fetching folder contents." });
+    }
+
+
+};
+
+// Tackle the foll later:
+
+const getFolderByPath = async (req, res) => {
+    const { path } = req.params;
+    const pathSegments = path.split("/");
+
+    try {
+        let currentParent = null;
+        let folder = null;
+
+        for (let segment of pathSegments) {
+            folder = await prisma.folder.findFirst({
+                where: {
+                    name: segment,
+                    parentId: currentParent,
+                },
+            });
+
+            if (!folder) {
+                return res.status(404).json({ error: `Folder ${segment} not found` });
+            }
+
+            currentParent = folder.id;
+        }
+
+        const folderDetails = await prisma.folder.findUnique({
+            where: { id: folder.id },
+            include: {
+                subfolders: true,
+                files: true,
+            },
+        });
+
+        res.render("pages/folder", { folder: folderDetails });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error retrieving folder" });
     }
 };
+
 
 const updateFolder = async (req, res) => {
     const { id } = req.params;
@@ -98,6 +200,7 @@ module.exports = {
     createFolder,
     getFolders,
     getFolderById,
+    getFolderByPath,
     updateFolder,
     deleteFolder,
 };

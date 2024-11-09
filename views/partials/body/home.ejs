@@ -4,135 +4,73 @@
     <%- include('../modals/newFolder') %>
     <%- include('../modals/editFolder') %>
     <%- include('../footer') %>
-    <script>
-        function openModal() {
-            document.getElementById('folderModal').style.display = 'flex';
-        }
-    
-        function closeModal() {
-            document.getElementById('folderModal').style.display = 'none';
-        }
-    
-        document.getElementById('createFolderForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-    
-            const folderName = document.getElementById('folderName').value;
-    
-            try {
-                const response = await fetch('/folders', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name: folderName })
-                });
-    
-                if (response.ok) {
-                    closeModal();
-                    document.getElementById('folderName').value = '';
-                    alert("Folder created successfully!");
-                    location.reload();
-                } else {
-                    const errorData = await response.json();
-                    alert("Error creating folder: " + errorData.error);
-                }
-            } catch (error) {
-                alert("Error creating folder: " + error.message);
+<div id="editFolderModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2>Edit Folder</h2>
+        <form id="editFolderForm">
+            <input type="hidden" id="editFolderId">
+            <label for="editFolderName">Folder Name:</label>
+            <input type="text" id="editFolderName" required>
+            <button type="submit">Update Folder</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function editFolder(id, name) {
+        document.getElementById('editFolderModal').style.display = 'flex';
+        document.getElementById('editFolderId').value = id;
+        document.getElementById('editFolderName').value = name;
+    }
+
+    function closeEditModal() {
+        document.getElementById('editFolderModal').style.display = 'none';
+    }
+
+    document.getElementById('editFolderForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const folderId = document.getElementById('editFolderId').value;
+        const folderName = document.getElementById('editFolderName').value;
+
+        try {
+            const response = await fetch(`/folders/${folderId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: folderName })
+            });
+
+            if (response.ok) {
+                closeEditModal();
+                alert("Folder updated successfully!");
+                location.reload();
+            } else {
+                const errorData = await response.json();
+                alert("Error updating folder: " + errorData.error);
             }
-        });
-        async function deleteFolder(folderId) {
-            if (!confirm("Are you sure you want to delete this folder?")) return;
-
-            try {
-                const response = await fetch(`/folders/${folderId}`, { method: 'DELETE' });
-
-                if (response.ok) {
-                    alert("Folder deleted successfully!");
-                    location.reload();
-                } else {
-                    const errorData = await response.json();
-                    alert("Error deleting folder: " + errorData.error);
-                }
-            } catch (error) {
-                alert("Error deleting folder: " + error.message);
-            }
+        } catch (error) {
+            alert("Error updating folder: " + error.message);
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".folder-link").forEach(link => {
-        link.addEventListener("click", async (e) => {
-            e.preventDefault();
-
-            const folderId = e.target.getAttribute("data-id");
-            await loadFolderContents(folderId);
-        });
     });
-});
+    async function deleteFolder(folderId) {
+    if (!confirm("Are you sure you want to delete this folder?")) return;
 
-async function loadFolderContents(folderId) {
     try {
-        const response = await fetch(`/folders/${folderId}`);
-        const data = await response.json();
-
-        console.log("Fetched Data:", data);
+        const response = await fetch(`/folders/${folderId}`, { method: 'DELETE' });
 
         if (response.ok) {
-            renderFolderContents(data.subfolders, data.files);
+            alert("Folder deleted successfully!");
+            location.reload();
         } else {
-            alert(data.error || "Error loading folder contents.");
+            const errorData = await response.json();
+            alert("Error deleting folder: " + errorData.error);
         }
     } catch (error) {
-        console.error("Error:", error);
-        alert("Failed to load folder contents.");
+        alert("Error deleting folder: " + error.message);
     }
 }
 
-function renderFolderContents(subfolders, files) {
-    const section = document.querySelector("section .file-table tbody");
-    section.innerHTML = "";
-
-    subfolders.forEach(folder => {
-        section.innerHTML += `
-            <tr>
-                <td><a href="#" class="folder-link" data-id="${folder.id}">${folder.name}</a></td>
-                <td>${new Date(folder.createdAt).toLocaleString()}</td>
-                <td>Folder</td>
-                <td>
-                    <button onclick="editFolder('${folder.id}', '${folder.name}')">Edit</button>
-                    <button onclick="deleteFolder('${folder.id}')">Delete</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    files.forEach(file => {
-        section.innerHTML += `
-            <tr>
-                <td>${file.fileName}</td>
-                <td>${new Date(file.createdAt).toLocaleString()}</td>
-                <td>File</td>
-                <td>
-                    <button onclick="editFile('${file.id}', '${file.fileName}')">Edit</button>
-                    <button onclick="deleteFile('${file.id}')">Delete</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    attachFolderLinkHandlers();  // Reattach click handlers to new folder links
-}
-
-function attachFolderLinkHandlers() {
-    document.querySelectorAll(".folder-link").forEach(link => {
-        link.addEventListener("click", async (e) => {
-            e.preventDefault();
-            const folderId = e.target.getAttribute("data-id");
-            await loadFolderContents(folderId);
-        });
-    });
-}
-
-
-    </script>
-    
+</script>
+ 
 </body>

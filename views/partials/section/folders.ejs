@@ -1,0 +1,45 @@
+<section>
+    <h1>Contents of <%= folder.name %></h1>
+    
+    <table class="file-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop for Folders -->
+            <% subfolders.sort((a, b) => a.name.localeCompare(b.name)).forEach(subfolder => { %>
+                <tr>
+                    <td>
+                        <a href="/folders/<%= subfolder.id %>" class="folder-link" data-id="<%= subfolder.id %>">
+                            <%= subfolder.name %>
+                        </a>
+                    </td>
+                    <td><%= new Date(subfolder.createdAt).toLocaleString() %></td>
+                    <td>Folder</td>
+                    <td>
+                        <button onclick="editFolder('<%= subfolder.id %>', '<%= subfolder.name %>')">Edit</button>
+                        <button onclick="deleteFolder('<%= subfolder.id %>')">Delete</button>
+                    </td>
+                </tr>
+            <% }) %>
+
+            <!-- Loop for Files -->
+            <% files.sort((a, b) => a.fileName.localeCompare(b.fileName)).forEach(file => { %>
+                <tr>
+                    <td><%= file.fileName %></td>
+                    <td><%= new Date(file.createdAt).toLocaleString() %></td>
+                    <td>File</td>
+                    <td>
+                        <button onclick="editFile('<%= file.id %>', '<%= file.fileName %>')">Edit</button>
+                        <button onclick="deleteFile('<%= file.id %>')">Delete</button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</section>

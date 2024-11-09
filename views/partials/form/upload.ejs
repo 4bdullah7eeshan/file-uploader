@@ -1,4 +1,6 @@
 <form action="/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file" />
+    <input type="hidden" name="folderId" value="<%= folderId %>" />
     <button type="submit">Upload</button>
 </form>
+<p><%= folderId %></p>
