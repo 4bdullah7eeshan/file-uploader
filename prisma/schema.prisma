@@ -36,7 +36,6 @@ model User {
 model File {
   id        Int      @id @default(autoincrement())
   fileName  String
-  path      String
   createdAt DateTime @default(now())
   userId    Int
   user      User     @relation("UserFiles", fields: [userId], references: [id])
