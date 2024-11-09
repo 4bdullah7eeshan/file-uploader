@@ -42,6 +42,8 @@ model File {
   user      User     @relation("UserFiles", fields: [userId], references: [id])
   folder    Folder?   @relation("FolderFiles", fields: [folderId], references: [id])
   folderId  Int?
+  cloudinaryUrl String?
+
 }
 
 model Folder {
