@@ -8,6 +8,8 @@ const getHomePage = asyncHandler(async (req, res) => {
         where: { userId: req.user.id,
             folderId: null,
          },
+         select: { id: true, fileName: true, createdAt: true, cloudinaryUrl: true },
+
     });
 
     const folders = await prisma.folder.findMany({

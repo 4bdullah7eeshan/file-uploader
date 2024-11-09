@@ -25,7 +25,13 @@
             <% }) %>
             <% files.sort((a, b) => a.fileName.localeCompare(b.fileName)).forEach(file => { %>
                 <tr>
-                    <td><%= file.fileName %></td>
+                    <td>
+                        <% if (file.cloudinaryUrl) { %>
+                            <a href="<%= file.cloudinaryUrl %>" target="_blank"><%= file.fileName %></a>
+                        <% } else { %>
+                            <%= file.fileName %>
+                        <% } %>
+                    </td>
                     <td><%= file.createdAt.toLocaleString() %></td>
                     <td>File</td>
                     <td>
