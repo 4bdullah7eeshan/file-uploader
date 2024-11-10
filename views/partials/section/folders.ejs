@@ -41,7 +41,7 @@
                     <td><%= new Date(file.createdAt).toLocaleString() %></td>
                     <td>File</td>
                     <td>
-                        <button onclick="editFile('<%= file.id %>', '<%= file.fileName %>')">Edit</button>
+                        <button onclick="downloadFile('<%= file.id %>', '<%= file.fileName %>')">Download</button>
                         <button onclick="deleteFile('<%= file.id %>')">Delete</button>
                     </td>
                 </tr>

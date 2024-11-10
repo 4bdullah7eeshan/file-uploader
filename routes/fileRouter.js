@@ -1,9 +1,12 @@
 const { Router } = require("express");
-const fileController = require("../controllers/fileController");
+const fileControllers = require("../controllers/fileControllers");
 
 const fileRouter = Router();
 
-router.get("/:id", fileController.getFileDetails);
-router.get("/:id/download", fileController.downloadFile);
+fileRouter.get("/:id", fileControllers.getFileDetails);
+fileRouter.get("/:id/download", fileControllers.downloadFile);
+fileRouter.delete("/:id", fileControllers.deleteFile);
+
+
 
 module.exports = fileRouter;

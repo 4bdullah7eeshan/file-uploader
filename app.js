@@ -27,6 +27,7 @@ const uploadRouter = require("./routes/uploadRouter");
 const logOutRouter = require("./routes/logOutRouter");
 const folderRouter = require("./routes/folderRouter");
 const { ensureAuthenticated } = require("./middlewares/auth");
+const filesRouter = require("./routes/fileRouter");
 
 
 const app = express();
@@ -86,6 +87,7 @@ app.use("/sign-up", signUpRouter);
 app.use("/upload", ensureAuthenticated, uploadRouter);
 app.use("/signout", logOutRouter);
 app.use("/folders", folderRouter);
+app.use("/files", filesRouter);
 
 
 passport.use(
