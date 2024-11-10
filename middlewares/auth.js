@@ -6,4 +6,10 @@ function ensureAuthenticated(req, res, next) {
     res.redirect("/sign-in");
 }
 
-module.exports = { ensureAuthenticated };
+function setUser(req, res, next) {
+    res.locals.isAuthenticated = req.isAuthenticated();
+    res.locals.user = req.user || null;
+    next();
+}
+
+module.exports = { ensureAuthenticated, setUser };

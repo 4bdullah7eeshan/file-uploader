@@ -1,3 +1,5 @@
 <nav class="nav-links">
-    <a href="/signout">Sign Out</a>
+    <% if (isAuthenticated) { %>
+        <a href="/signout">Sign Out</a>
+    <% } %>
 </nav>

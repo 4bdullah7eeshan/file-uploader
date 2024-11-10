@@ -26,7 +26,7 @@ const signUpRouter = require("./routes/signUpRouter");
 const uploadRouter = require("./routes/uploadRouter");
 const logOutRouter = require("./routes/logOutRouter");
 const folderRouter = require("./routes/folderRouter");
-const { ensureAuthenticated } = require("./middlewares/auth");
+const { ensureAuthenticated, setUser } = require("./middlewares/auth");
 const filesRouter = require("./routes/fileRouter");
 
 
@@ -81,13 +81,16 @@ app.use((req, res, next) => {
 });
 
 // Use routers here
+app.use(setUser);
+
 app.use("/", ensureAuthenticated, indexRouter);
 app.use("/sign-in", signInRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/upload", ensureAuthenticated, uploadRouter);
 app.use("/signout", logOutRouter);
-app.use("/folders", folderRouter);
-app.use("/files", filesRouter);
+app.use("/folders", ensureAuthenticated, folderRouter);
+app.use("/files", ensureAuthenticated, filesRouter);
+
 
 
 passport.use(
