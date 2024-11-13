@@ -59,8 +59,9 @@
     }
 }
 
-function downloadFile(fileId) {
-        window.location.href = `/files/${fileId}/download`;
+    function downloadFile(fileId) {
+        window.open(`/files/${fileId}/download`, '_blank');
+
     }
 
     // Delete File
