@@ -200,33 +200,40 @@ const deleteFolder = async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    try {
-        const filesToDelete = await prisma.file.findMany({
-            where: { folderId: Number(id), userId },
+    const deleteFolderRecursive = async (folderId) => {
+        const files = await prisma.file.findMany({
+            where: { folderId, userId },
         });
+
         await Promise.all(
-            filesToDelete.map(async (file) => {
+            files.map(async (file) => {
                 if (file.cloudinaryPublicId) {
                     await cloudinary.uploader.destroy(file.cloudinaryPublicId);
                 }
             })
         );
-        
         await prisma.file.deleteMany({
-            where: { folderId: Number(id), userId },
-        });
-        
-        const deletedFolder = await prisma.folder.deleteMany({
-            where: { id: Number(id), userId },
+            where: { folderId, userId },
         });
 
-        if (deletedFolder.count === 0) {
-            return res.status(404).json({ error: "Folder not found or access denied" });
-        }
-        
-        res.status(200).json({ message: "Folder and associated files deleted successfully" });
+        const subfolders = await prisma.folder.findMany({
+            where: { parentId: folderId, userId },
+        });
+
+        await Promise.all(subfolders.map(subfolder => deleteFolderRecursive(subfolder.id)));
+
+        await prisma.folder.delete({
+            where: { id: folderId },
+        });
+    };
+
+    try {
+        await deleteFolderRecursive(Number(id));
+
+        res.status(200).json({ message: "Folder and all associated subfolders and files deleted successfully" });
     } catch (error) {
-        res.status(500).json({ error: "Error deleting folder" });
+        console.error("Error deleting folder:", error);
+        res.status(500).json({ error: "Error deleting folder and its contents" });
     }
 };
 
