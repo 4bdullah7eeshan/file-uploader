@@ -1,5 +1,6 @@
 <nav class="nav-links">
     <% if (isAuthenticated) { %>
-        <a href="/signout">Sign Out</a>
+        <span>Welcome, <%= user.username %>!</span>
+        <a href="/signout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
     <% } %>
 </nav>

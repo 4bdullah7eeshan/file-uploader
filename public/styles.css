@@ -189,7 +189,8 @@ a {
 
 .file-table th, .file-table td {
     text-align: left;
-    border: 1px solid #252635;
+    /* border: 1px solid #252635; */
+    border: 1px solid #979bb0;
 }
 
 .file-table th {
