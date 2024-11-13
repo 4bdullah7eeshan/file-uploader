@@ -17,9 +17,9 @@
                     </td>
                     <td><%= folder.createdAt.toLocaleString() %></td>
                     <td>Folder</td>
-                    <td>
-                        <button onclick="editFolder('<%= folder.id %>', '<%= folder.name %>')">Edit</button>
-                        <button onclick="deleteFolder('<%= folder.id %>')">Delete</button>
+                    <td class="manage-buttons">
+                        <button onclick="editFolder('<%= folder.id %>', '<%= folder.name %>')"><i class="fa-regular fa-pen-to-square"></i></button>
+                        <button onclick="deleteFolder('<%= folder.id %>')"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             <% }) %>

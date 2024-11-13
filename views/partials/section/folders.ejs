@@ -21,9 +21,9 @@
                     </td>
                     <td><%= new Date(subfolder.createdAt).toLocaleString() %></td>
                     <td>Folder</td>
-                    <td>
-                        <button onclick="editFolder('<%= subfolder.id %>', '<%= subfolder.name %>')">Edit</button>
-                        <button onclick="deleteFolder('<%= subfolder.id %>')">Delete</button>
+                    <td class="manage-buttons">
+                        <button onclick="editFolder('<%= subfolder.id %>', '<%= subfolder.name %>')"><i class="fa-regular fa-pen-to-square"></i></button>
+                        <button onclick="deleteFolder('<%= subfolder.id %>')"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             <% }) %>
@@ -40,9 +40,9 @@
                     </td>
                     <td><%= new Date(file.createdAt).toLocaleString() %></td>
                     <td>File</td>
-                    <td>
-                        <button onclick="downloadFile('<%= file.id %>', '<%= file.fileName %>')">Download</button>
-                        <button onclick="deleteFile('<%= file.id %>')">Delete</button>
+                    <td class="manage-buttons">
+                        <button onclick="downloadFile('<%= file.id %>', '<%= file.fileName %>')"><i class="fa-solid fa-download"></i></button>
+                        <button onclick="deleteFile('<%= file.id %>')"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             <% }) %>
