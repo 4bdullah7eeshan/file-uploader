@@ -23,11 +23,6 @@ nav, header {
     padding: 1rem;
 }
 
-header {
-    outline: 2px solid #252635;
-
-}
-
 .logo {
     display: flex;
     flex-direction: row;
@@ -82,6 +77,60 @@ footer {
 footer a {
     color: white;
 }
+
+a {
+    color: #e03768;
+}
+
+/* Sign-in & Sign-up Pages */
+.sign-in, .sign-up {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+
+}
+
+.sign-in aside, .sign-in section, .sign-up aside, .sign-up section {
+    flex: 1;
+}
+
+.sign-in aside, .sign-up aside {
+    height: 100vh;
+    width: 50vw;
+    background-image: url(https://cdn.pixabay.com/photo/2019/06/14/09/25/cloud-4273197_1280.png);
+    background-size: contain;
+    background-position: center;
+}
+
+.sign-in form, .sign-up form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sign-in form div, .sign-up form div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sign-in input, .sign-up input {
+    padding: 0.5rem;
+    background-color: #1e2130;
+    color: #979bb0;
+    border-radius: 6px;
+    
+}
+
+.sign-in button, .sign-up button {
+    background-color: #e03768;
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
 
 .home {
     display: flex;
