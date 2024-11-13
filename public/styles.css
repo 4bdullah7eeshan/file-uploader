@@ -317,3 +317,22 @@ td a {
 }
 
 
+/* breadcrumb */
+.breadcrumb {
+    display: inline;
+}
+.breadcrumb-item {
+    text-decoration: none;
+    /* color: #2fd6b5; */
+    color: #979bb0;
+    display: inline;
+    font-size: 1.125rem;
+}
+
+.breadcrumb-item.active {
+    color: white; /* Color for the last breadcrumb item */
+    font-weight: bold; /* Optional */
+}
+
+
+
