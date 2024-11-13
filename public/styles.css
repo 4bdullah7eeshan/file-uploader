@@ -198,3 +198,19 @@ a {
     background-color: #252635;
 }
 
+.manage-buttons {
+    display: flex;
+    gap: 1.5rem;
+}
+table button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+}
+
+table button i {
+    font-size: medium;
+}
+

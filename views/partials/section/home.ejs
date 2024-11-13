@@ -34,9 +34,9 @@
                     </td>
                     <td><%= file.createdAt.toLocaleString() %></td>
                     <td>File</td>
-                    <td>
-                        <button onclick="downloadFile('<%= file.id %>', '<%= file.fileName %>')">Download</button>
-                        <button onclick="deleteFile('<%= file.id %>')">Delete</button>
+                    <td class="manage-buttons">
+                        <button onclick="downloadFile('<%= file.id %>', '<%= file.fileName %>')"><i class="fa-solid fa-download"></i></button>
+                        <button onclick="deleteFile('<%= file.id %>')"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             <% }) %>
