@@ -32,7 +32,6 @@
 
             if (response.ok) {
                 closeEditModal();
-                alert("Folder updated successfully!");
                 location.reload();
             } else {
                 const errorData = await response.json();
@@ -49,7 +48,6 @@
         const response = await fetch(`/folders/${folderId}`, { method: 'DELETE' });
 
         if (response.ok) {
-            alert("Folder deleted successfully!");
             location.reload();
         } else {
             const errorData = await response.json();
@@ -73,7 +71,6 @@
             const response = await fetch(`/files/${fileId}`, { method: 'DELETE' });
 
             if (response.ok) {
-                alert("File deleted successfully!");
                 location.reload();
             } else {
                 const errorData = await response.json();
