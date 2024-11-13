@@ -1,12 +1,13 @@
 <div id="folderModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-         <!--work on the on click fn later  -->
-        <h2>Create New Folder</h2>
-        <form action="/folders" method="POST" id="createFolderForm">
-            <label for="folderName">Folder Name:</label>
-            <input type="text" id="folderName" name="name" required>
-            <button type="submit">Create Folder</button>
+    <div class="modal-content modal-box">
+        <span class="close close-btn" onclick="closeModal()">&times;</span>
+        <h2 class="modal-header">Create New Folder</h2>
+        <form id="createFolderForm">
+            <label for="folderName" class="modal-label">Folder Name:</label>
+            <input type="text" id="folderName" name="name" class="modal-input" required>
+            <input type="hidden" id="parentId" name="parentId">
+
+            <button type="submit" class="modal-submit-btn">Create</button>
         </form>
     </div>
 </div>
