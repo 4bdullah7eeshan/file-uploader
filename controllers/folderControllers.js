@@ -90,6 +90,7 @@ const getFolderById = async (req, res) => {
             include: {
                 subfolders: true,
                 files: true,
+                parent: true,
             }
         });
 
@@ -97,7 +98,21 @@ const getFolderById = async (req, res) => {
             return res.status(404).render('error', { message: "Folder not found" });
         }
 
+        let breadcrumbTrail = [];
+        let currentFolder = folder;
+
+        while (currentFolder) {
+            breadcrumbTrail.unshift({
+                name: currentFolder.name,
+                id: currentFolder.id,
+            });
+            currentFolder = currentFolder.parent; // Move to the parent folder
+        }
+
+        console.log(breadcrumbTrail);
+
         res.render('pages/folders', {
+            breadcrumbTrail,
             folder,         
             subfolders: folder.subfolders,
             files: folder.files,
@@ -121,6 +136,7 @@ const getFolderByPath = async (req, res) => {
     try {
         let currentParent = null;
         let folder = null;
+        const folderHierarchy = [];
 
         for (let segment of pathSegments) {
             folder = await prisma.folder.findFirst({
@@ -134,6 +150,7 @@ const getFolderByPath = async (req, res) => {
                 return res.status(404).json({ error: `Folder ${segment} not found` });
             }
 
+            folderHierarchy.push(folder);
             currentParent = folder.id;
         }
 
@@ -145,7 +162,13 @@ const getFolderByPath = async (req, res) => {
             },
         });
 
-        res.render("pages/folder", { folder: folderDetails });
+        // res.render("pages/folder", {
+        //     folder: folderDetails,
+        //     folderHierarchy: folderHierarchy,
+        //     subfolders: folderDetails.subfolders,
+        //     files: folderDetails.files,
+        //     title: folderDetails.name || 'Folder View',
+        // });
 
     } catch (error) {
         console.error(error);

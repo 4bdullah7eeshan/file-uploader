@@ -1,6 +1,20 @@
 <section>
-    <h1>Contents of <%= folder.name %></h1>
+    <h1><%= folder.name %></h1>
     
+    <span class="breadcrumb">
+        <a href="/" class="breadcrumb-item">Home</a>
+        
+        <% breadcrumbTrail.forEach((folder, index) => { %>
+            <span> &gt; </span>
+            
+            <% if (index !== breadcrumbTrail.length - 1) { %>
+                <a href="/folders/<%= folder.id %>" class="breadcrumb-item"><%= folder.name %></a>
+            <% } else { %>
+                <span class="breadcrumb-item active"><%= folder.name %></span>
+            <% } %>
+        <% }) %>
+    </span>
+
     <table class="file-table">
         <thead>
             <tr>
