@@ -293,4 +293,27 @@ td a {
     outline: none;
 }
 
+/* Upload page */
+.upload-file {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.upload-file form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.upload-file form button {
+    background-color: #e03768;
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
 
