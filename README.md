@@ -36,5 +36,38 @@ Cloud storage application enabling authenticated users to upload files and organ
 - Setup a demo account sign in.
 - Add a share folder functionality through link with a customizable expiry duration.
 
+## Getting Started
+
+### Clone Repository
+
+```
+git clone https://github.com/4bdullah7eeshan/file-uploader.git
+cd file-uploader
+```
+
+### Install Dependencies
+
+```
+npm install
+```
+
+### Set Up Environment Variables
+
+```
+DATABASE_URL="postgresql://<owner>:<db>?sslmode=require"
+PORT=6123
+
+CLOUDINARY_CLOUD_NAME=<>
+CLOUDINARY_API_KEY=<>
+CLOUDINARY_API_SECRET=<>
+CLOUDINARY_URL=cloudinary://<>
+```
+
+## Background
+
+This project was created as part of [The Odin Project](https://www.theodinproject.com/)'s [File Uploader](https://www.theodinproject.com/lessons/nodejs-file-uploader) project.
+
+
+
 
 
